@@ -5,7 +5,6 @@ tags:
 categories: Android
 ---
 
-## 一、导语
 本文阐述 Android 使用 Gradle 构建的基础知识，包括
 - Gradle
 - Gradle 与 Groovy
@@ -16,11 +15,11 @@ categories: Android
 
 <!-- more -->
 
-## 二、Gradle 是什么
+## 一、Gradle 是什么
 [Gradle](https://gradle.org/) 是一个自动化构建工具，独立于 Android、Android Studio，具备依赖管理、编译、运行、签名、打包等功能
 
 
-## 三、Gradle 与 Groovy 的关系？
+## 二、Gradle 与 Groovy 的关系？
 Gradle 以 Groovy 语言为基础，类似 Ant 是基于 XML 的
 [Apache Groovy](http://groovy-lang.org/)提到
 >A multi-faceted language for the Java platform
@@ -39,12 +38,12 @@ Gradle 以 Groovy 语言为基础，类似 Ant 是基于 XML 的
 >我们在 build.gradle 里边不是简单的配置，而是直接的逻辑开发
 
 
-## 四、Gradle 与 Android Studio 的关系？
+## 三、Gradle 与 Android Studio 的关系？
 上文提到，Gradle 本质上与 Android Studio 无关
 为了支持 Gradle 能在 Android Studio 上使用，Google 推出了 Android Gradle Plugin
 
 
-## 五、Gradle 有多处版本配置？版本信息不一致？
+## 四、Gradle 有多处版本配置？版本信息不一致？
 ### 1. 配置 Gradle 版本
 我们借助 Gradle Wrapper 来使用 Gradle
 Gradle Wrapper 配置文件: $rootProject.projectDir/gradle-wrapper.properties
@@ -67,7 +66,7 @@ buildscript {
 [Android Plugin for Gradle Release Notes - Update Gradle](https://developer.android.com/studio/releases/gradle-plugin.html#updating-gradle) 提供对应表格
 
 
-## 六、Gradle 与 Gradle Wrapper 的关系？
+## 五、Gradle 与 Gradle Wrapper 的关系？
 在 Android Studio 新建一个 Android Project，默认会直接安装 [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html)(而非 Gradle)，也就是 Gradle 的包装器
 
 ### 1. 为什么使用 gradlew 命令而非 gradle？
@@ -78,8 +77,8 @@ buildscript {
 ### 2. Gradle Wrapper
 gradlew 为 Gradle Wrapper 的缩写，Gradle Wrapper 是 Gradle 的封装，Gradle Wrapper 用于给 Gradle 使用者带来好处
 一个 Gradle Wrapper 对应一个特定版本的 Gradle，当用户第一次执行 gradlew 命令时，Gradle Wrapper 会自动下载、安装对应版本的 Gradle，这就带来两个好处: 
-1. 用户不必自己下载、安装、配置Gradle
-2. 构建时保证编译环境统一
+(1) 用户不必自己下载、安装、配置Gradle
+(2) 构建时保证编译环境统一
 
 ### 3. 使用 gradlew
 $rootProject.projectDir/gradlew
@@ -116,7 +115,7 @@ OS:           Mac OS X 10.12.1 x86_64
 卸载Release包
 
 
-## 七、Android Studio 是从哪里下载资源的?
+## 六、Android Studio 是从哪里下载资源的?
 Gradle 会在 repository(仓库) 里找资源文件，仓库本质上是文件的集合，通过 groupId、$artifactId、$version整理分类
 
 ### 1. jcenter 与 mavenCentral
@@ -213,7 +212,7 @@ Maven Package 格式由 POM(Project Object Model) 定义
 [拥抱 Android Studio 之四: Maven 仓库使用与私有仓库搭建](http://blog.bugtags.com/2016/01/27/embrace-android-studio-maven-deploy/)
 
 
-## 八、Project 与 Task
+## 七、Project 与 Task
 
 Gradle 脚本执行时，本质上会使用某些特定类型的对象
 ![Project 与 Task](https://raw.githubusercontent.com/yuting-lin/hexo.github.io/master/source/_posts/Android%E6%9E%84%E5%BB%BA%E7%AF%87/Project%20%E4%B8%8E%20Task.png)
@@ -231,12 +230,12 @@ Gradle 脚本执行时，本质上会使用某些特定类型的对象
 (4) 根据 tasks 的依赖关系，执行 task
 
 ### 3. Task
-每个 [Project](https://docs.gradle.org/current/dsl/org.gradle.api.Project.html) 由一个或多个 [Task](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html) 构成
-一个 [Task](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html) 代表更细化的任务，可以是编译 class、生成压缩文件等
-每个 [Task](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html) 属于一个 [Project](https://docs.gradle.org/4.0/dsl/org.gradle.api.Project.html) 对象
+(1) 每个 [Project](https://docs.gradle.org/current/dsl/org.gradle.api.Project.html) 由一个或多个 [Task](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html) 构成
+(2) 一个 [Task](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html) 代表更细化的任务，可以是编译 class、生成压缩文件等
+(3) 每个 [Task](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html) 属于一个 [Project](https://docs.gradle.org/4.0/dsl/org.gradle.api.Project.html) 对象
 更多信息参考 [More about Tasks](https://docs.gradle.org/4.0/userguide/more_about_tasks.html)
 
-## 九、插件
+## 八、插件
 引用 [Project 文档](https://docs.gradle.org/current/dsl/org.gradle.api.Project.html)
 >Plugins can be used to modularise and reuse project configuration. Plugins can be applied using the [PluginAware.apply(java.util.Map)](https://docs.gradle.org/current/dsl/org.gradle.api.plugins.PluginAware.html#org.gradle.api.plugins.PluginAware:apply(java.util.Map)) method, or by using the [PluginDependenciesSpec](https://docs.gradle.org/current/dsl/org.gradle.plugin.use.PluginDependenciesSpec.html).
 
@@ -274,7 +273,7 @@ class GreetingPlugin implements Plugin<Project> {
 ```
 
 
-## 十、参考
+## 参考
 [Gradle 文档](https://gradle.org/docs)
 [The Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html)
 [Apache Groovy](http://groovy-lang.org/)
