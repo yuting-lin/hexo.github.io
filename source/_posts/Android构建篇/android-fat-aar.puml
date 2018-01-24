@@ -1,0 +1,55 @@
+@startuml
+title android-fat-aar
+
+start
+: ...;
+partition RJava {
+: :app:generateRJava;
+: ...;
+: :app:collectRClass;
+: :app:embedRClass;
+}
+partition JavaJars {
+: :app:embedJavaJars;
+}
+partition Assets {
+: ...;
+note
+:app:mergeReleaseShaders
+:app:compileReleaseShaders
+end note
+: :app:embedAssets;
+: :app:generateReleaseAssets;
+}
+partition JniLibs {
+: ...;
+note
+:app:mergeReleaseJniLibFolders
+:app:transformNative_libsWithMergeJniLibsForRelease
+:app:transformNative_libsWithSyncJniLibsForRelease
+end note
+: :app:embedJniLibs;
+}
+partition Manifests {
+: :app:embedManifests;
+}
+: ...;
+partition Assets {
+: :app:mergeReleaseAssets;
+}
+partition Proguard {
+: ...;
+note
+:app:mergeReleaseProguardFiles UP-TO-DATE
+:app:packageReleaseRenderscript UP-TO-DATE
+end note
+: :app:embedProguard;
+}
+partition LibraryResources {
+: :app:embedLibraryResources;
+: ...;
+}
+
+stop
+
+@enduml
