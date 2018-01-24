@@ -216,7 +216,7 @@ Maven Package 格式由 POM(Project Object Model) 定义
 ## 八、Project 与 Task
 
 Gradle 脚本执行时，本质上会使用某些特定类型的对象
-![Project 与 Task](http://i1.buimg.com/1949/9e00c3ab3119a873.png)
+![Project 与 Task](https://raw.githubusercontent.com/yuting-lin/hexo.github.io/master/source/_posts/Android%E6%9E%84%E5%BB%BA%E7%AF%87/Project%20%E4%B8%8E%20Task.png)
 
 ### 1. Project
 每个 build.gradle 都对应一个 [Project](https://docs.gradle.org/current/dsl/org.gradle.api.Project.html) 对象
