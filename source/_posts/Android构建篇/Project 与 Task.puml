@@ -1,0 +1,149 @@
+@startuml
+package "Project & Task" {
+    interface Action<T> {
+        void execute(T t)
+    }
+
+    interface TaskDependency {
+        Set<? extends Task> getDependencies(Task task);
+    }
+
+    class Task {
+        {static} Task.Namer namer;
+
+        {static} String TASK_ACTION;
+        {static} String TASK_DEPENDS_ON;
+        {static} String TASK_DESCRIPTION;
+        {static} String TASK_GROUP;
+        {static} String TASK_NAME;
+        {static} String TASK_OVERWRITE;
+        {static} String TASK_TYPE;
+
+        .. Dynamic Properties ..
+        Object property(String propertyName);
+        void setProperty(String name, Object value)
+
+        .. Dynamic Methods ..
+        Convention getConvention()
+
+        .. Task Actions ..
+        List<Action<? super Task>> getActions();
+        Task doFirst(Closure action);
+        Task doLast(Closure action);
+
+        .. Task Dependencies ..
+        Task dependsOn(Object... paths);
+        void setDependsOn(Iterable<?> dependsOnTasks);
+        Set<Object>	getDependsOn();
+
+        .. Task Ordering ..
+        Task mustRunAfter(Object... paths);
+        TaskDependency getMustRunAfter();
+        TaskDependency getShouldRunAfter();
+        TaskDependency shouldRunAfter(Object... paths);
+        TaskDependency getTaskDependencies();
+    }
+
+    class Configuration {
+        {static} Configuration.Namer namer;
+        Configuration.State getState(); # RESOLVED, RESOLVED_WITH_FAILURES, UNRESOLVED
+    }
+    note bottom of Configuration
+        represents a group of artifacts and their dependencies
+    end note
+
+    interface ConfigurationContainer {
+        Configuration detachedConfiguration(Dependency... dependencies)
+    }
+    note bottom of ConfigurationContainer
+        responsible for declaring and managing configurations
+    end note
+
+    interface RepositoryHandler {
+        MavenArtifactRepository jcenter();
+        MavenArtifactRepository mavenCentral()
+    }
+    note bottom of RepositoryHandler
+        manages a set of repositories
+    end note
+
+    interface Dependency {
+        {static} String ARCHIVES_CONFIGURATION;
+        {static} String CLASSIFIER;
+        {static} String DEFAULT_CONFIGURATION;
+    }
+    note bottom of Dependency
+        com.android.support:appcompat-v7:25.1.1
+    end note
+
+    interface DependencyHandler {
+        Dependency add(String configurationName, Object dependencyNotation)
+    }
+    note bottom of DependencyHandler
+        Dependencies are grouped into configurations
+        dependencies {
+            configurationName dependencyNotation1, dependencyNotation2, ...
+            compile 'com.android.support:appcompat-v7:25.1.1'
+        }
+    end note
+
+    interface ScriptHandler {
+        {static} String CLASSPATH_CONFIGURATION;
+        ClassLoader getClassLoader();
+
+        ConfigurationContainer getConfigurations();
+
+        void repositories(Closure configureClosure)；
+        RepositoryHandler getRepositories()
+
+        void dependencies(Closure configureClosure);
+        DependencyHandler getDependencies();
+    }
+    note bottom of ScriptHandler
+        manage the compilation and execution of a build script.
+        buildscript { ... }
+    end note
+
+    class Project {
+        .. Properties ..
+        Set<Project> allprojects;
+
+        .. Dynamic Properties ..
+        Object property(String propertyName);
+        void setProperty(String name, Object value)
+
+        .. Tasks ..
+        TaskContainer tasks;
+
+        .. Dependencies ..
+        ConfigurationContainer configurations;
+
+        .. Plugins ..
+        void apply(Map<String, ?> options);
+
+
+        buildscript { }
+        ScriptHandler buildscript;
+    }
+
+    Project *- Project
+    Project *- TaskContainer
+    Project *- ConfigurationContainer
+    Project *- ScriptHandler
+    TaskContainer *- Task
+    Task *- Action
+    TaskDependency *- Task
+
+    ScriptHandler *- ConfigurationContainer
+    ScriptHandler *- RepositoryHandler
+    ScriptHandler *- DependencyHandler
+    Dependency <.. ConfigurationContainer
+    Dependency <.. DependencyHandler
+    ConfigurationContainer *- Configuration
+}
+
+class Settings {
+    + void include(String[] projectPaths);
+}
+
+@enduml
