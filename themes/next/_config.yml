@@ -407,7 +407,7 @@ gitment:
   lazy: false # Comments lazy loading with a button
   cleanly: false # Hide 'Powered by ...' on footer, and more
   language: # Force language, or auto switch by theme
-  github_user: 30066366
+  github_user: yuting-lin
   github_repo: gitment.github.io
   client_id: 6fc5858477ad7e6aa874
   client_secret: 03357a1e5694346191037fb24fcd9d0237d41339
