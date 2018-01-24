@@ -108,50 +108,8 @@ dependencies {
 
 
 ## 如何解决多个 module 依赖配置版本冲突？
+示例：从下图可看到 app module 依赖 demo_library module，二者 Android SDK 版本配置、依赖库 com.android.support:appcompat 版本配置均不一致
 ![依赖管理 - 版本冲突](https://raw.githubusercontent.com/yuting-lin/hexo.github.io/master/source/_posts/Android%E6%9E%84%E5%BB%BA%E7%AF%87/%E7%89%88%E6%9C%AC%E5%86%B2%E7%AA%81.png)
-可看到 app module 依赖 demo_library module，二者 Android SDK 版本配置、依赖库 com.android.support:appcompat 版本配置均不一致
-```
-$ ./gradlew app:dependencies --configuration compile
-To honour the JVM settings for this build a new JVM will be forked. Please consider using the daemon: https://docs.gradle.org/2.14.1/userguide/gradle_daemon.html.
-Incremental java compilation is an incubating feature.
-:app:dependencies
-
-------------------------------------------------------------
-Project :app
-------------------------------------------------------------
-
-compile - Classpath for compiling the main sources.
-+--- com.android.support:appcompat-v7:24.2.1 -> 25.1.1
-|    +--- com.android.support:support-annotations:25.1.1
-|    +--- com.android.support:support-v4:25.1.1
-|    |    +--- com.android.support:support-compat:25.1.1
-|    |    |    \--- com.android.support:support-annotations:25.1.1
-|    |    +--- com.android.support:support-media-compat:25.1.1
-|    |    |    +--- com.android.support:support-annotations:25.1.1
-|    |    |    \--- com.android.support:support-compat:25.1.1 (*)
-|    |    +--- com.android.support:support-core-utils:25.1.1
-|    |    |    +--- com.android.support:support-annotations:25.1.1
-|    |    |    \--- com.android.support:support-compat:25.1.1 (*)
-|    |    +--- com.android.support:support-core-ui:25.1.1
-|    |    |    +--- com.android.support:support-annotations:25.1.1
-|    |    |    \--- com.android.support:support-compat:25.1.1 (*)
-|    |    \--- com.android.support:support-fragment:25.1.1
-|    |         +--- com.android.support:support-compat:25.1.1 (*)
-|    |         +--- com.android.support:support-media-compat:25.1.1 (*)
-|    |         +--- com.android.support:support-core-ui:25.1.1 (*)
-|    |         \--- com.android.support:support-core-utils:25.1.1 (*)
-|    +--- com.android.support:support-vector-drawable:25.1.1
-|    |    +--- com.android.support:support-annotations:25.1.1
-|    |    \--- com.android.support:support-compat:25.1.1 (*)
-|    \--- com.android.support:animated-vector-drawable:25.1.1
-|         \--- com.android.support:support-vector-drawable:25.1.1 (*)
-\--- project :demo_library
-     \--- com.android.support:appcompat-v7:25.1.1 (*)
-
-(*) - dependencies omitted (listed previously)
-
-BUILD SUCCESSFUL
-```
 
 ### 解决方案(一): Force
 强制配置该 module 依赖库的版本号
